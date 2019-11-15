@@ -74,13 +74,9 @@ namespace lokalen.Wpf
         private void VulLstLokalen()
         {
             lstLokalen.Items.Clear();
-            ListBoxItem itm;
             foreach(Lokaal lok in lokalen)
             {
-                itm = new ListBoxItem();
-                itm.Tag = lok.Naam;
-                itm.Content = lok.ToString();
-                lstLokalen.Items.Add(itm);
+                lstLokalen.Items.Add(lok);
             }
         }
 
@@ -143,20 +139,12 @@ namespace lokalen.Wpf
             else
             {
                 // object aanpassen bij wijziging
-                ListBoxItem itm = (ListBoxItem)lstLokalen.SelectedItem;
-                string lokaalnaam = itm.Tag.ToString();
-                foreach (Lokaal zoeklokaal in lokalen)
-                {
-                    if (zoeklokaal.Naam == lokaalnaam)
-                    {
-                        zoeklokaal.Naam = naam;
-                        zoeklokaal.Verdieping = verdieping;
-                        zoeklokaal.Vleugel = vleugel;
-                        zoeklokaal.Plaatsen = plaatsen;
-                        zoeklokaal.Informaticalokaal = informaticaLokaal;
-                        break;
-                    }
-                }
+                Lokaal lok = (Lokaal)lstLokalen.SelectedItem;
+                lok.Naam = naam;
+                lok.Verdieping = verdieping;
+                lok.Vleugel = vleugel;
+                lok.Plaatsen = plaatsen;
+                lok.Informaticalokaal = informaticaLokaal;
 
             }
             VulLstLokalen();
@@ -173,20 +161,14 @@ namespace lokalen.Wpf
 
             if (lstLokalen.SelectedIndex == -1) return;
 
-            ListBoxItem itm = (ListBoxItem)lstLokalen.SelectedItem;
-            string lokaalnaam = itm.Tag.ToString();
-            foreach(Lokaal zoeklokaal in lokalen)
-            {
-                if(zoeklokaal.Naam == lokaalnaam)
-                {
-                    txtNaam.Text = zoeklokaal.Naam;
-                    cmbVerdieping.SelectedItem = zoeklokaal.Verdieping;
-                    cmbVleugel.SelectedItem = zoeklokaal.Vleugel;
-                    txtPlaatsen.Text = zoeklokaal.Plaatsen.ToString();
-                    chkInformaticalokaal.IsChecked = zoeklokaal.Informaticalokaal;
-                    break;
-                }
-            }
+
+            Lokaal lok = (Lokaal)lstLokalen.SelectedItem;
+            txtNaam.Text = lok.Naam;
+            cmbVerdieping.SelectedItem = lok.Verdieping;
+            cmbVleugel.SelectedItem = lok.Vleugel;
+            txtPlaatsen.Text = lok.Plaatsen.ToString();
+            chkInformaticalokaal.IsChecked = lok.Informaticalokaal;
+
         }
 
         private void btnWijzig_Click(object sender, RoutedEventArgs e)
@@ -202,16 +184,8 @@ namespace lokalen.Wpf
         {
             if (lstLokalen.SelectedIndex == -1)
                 return;
-            ListBoxItem itm = (ListBoxItem)lstLokalen.SelectedItem;
-            string lokaalnaam = itm.Tag.ToString();
-            foreach (Lokaal zoeklokaal in lokalen)
-            {
-                if (zoeklokaal.Naam == lokaalnaam)
-                {
-                    lokalen.Remove(zoeklokaal);
-                    break;
-                }
-            }
+            Lokaal lok = (Lokaal)lstLokalen.SelectedItem;
+            lokalen.Remove(lok);
             VulLstLokalen();
         }
     }
